@@ -7,10 +7,28 @@ function toRegExp(pattern) {
     throw new TypeError("Pattern must be a string or RegExp.");
   }
 
-  const slashRegex = /^\/(.+)\/([gimsuy]*)$/;
-  const match = pattern.match(slashRegex);
-  if (match) {
-    return new RegExp(match[1], match[2]);
+  if (pattern.startsWith("/")) {
+    for (let i = pattern.length - 1; i > 0; i -= 1) {
+      if (pattern[i] !== "/") {
+        continue;
+      }
+
+      let backslashCount = 0;
+      for (let j = i - 1; j >= 0 && pattern[j] === "\\"; j -= 1) {
+        backslashCount += 1;
+      }
+
+      if (backslashCount % 2 === 1) {
+        continue;
+      }
+
+      const source = pattern.slice(1, i);
+      const flags = pattern.slice(i + 1);
+      if (/^[gimsuy]*$/.test(flags)) {
+        return new RegExp(source, flags);
+      }
+      break;
+    }
   }
 
   return new RegExp(pattern);
