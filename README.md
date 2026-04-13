@@ -9,7 +9,7 @@ const { detectPatternsForPatterns } = require("./detectPatternsForPatterns");
 const value = "ZCT893819";
 const matched = detectPatternsForPatterns(value, [
   /^ZCT\d{6}$/,
-  "/^ABC\\d+$/",
+  "/^ABC[0-9]+$/",
 ]);
 
 console.log(matched); // true
