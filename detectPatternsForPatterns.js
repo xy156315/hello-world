@@ -24,7 +24,7 @@ function toRegExp(pattern) {
 
       const source = pattern.slice(1, i);
       const flags = pattern.slice(i + 1);
-      if (/^[gimsuy]*$/.test(flags)) {
+      if (/^[dgimsuvy]*$/.test(flags)) {
         return new RegExp(source, flags);
       }
       break;
